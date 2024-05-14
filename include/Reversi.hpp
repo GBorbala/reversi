@@ -13,6 +13,7 @@ class Reversi : public Widget
         void draw() override;
         void update();
         void event_handle(event)override;
+        void find_legal_moves();
         virtual ~Reversi();
 
     protected:

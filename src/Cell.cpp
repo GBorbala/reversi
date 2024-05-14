@@ -43,6 +43,12 @@ void Cell::draw()
         g=0;
         b=0;
     }
+    else if(_content == 'g')
+    {
+        r=200;
+        g=200;
+        b=200;
+    }
 
 
     int center_x = _x + _size_x / 2;
