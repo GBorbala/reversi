@@ -30,3 +30,10 @@
 *.exe
 *.out
 *.app
+/include/SDL2
+/graphicslib
+GraphicsProject.depend
+GraphicsProject.layout
+GraphicsProject.cbp
+include/graphics.hpp
+LiberationSans-Regular.ttf
