@@ -25,18 +25,7 @@ void Reversi::draw()
     {
         for(int j = 0; j < 8; ++j)
         {
-            if(_cells[i][j]->_content_getter()=='n')
-            {
-                    _cells[i][j] -> draw();
-            }
-            else if(_cells[i][j]->_content_getter()=='p')
-            {
-                    _cells[i][j] -> draw_pink();
-            }
-            else if(_cells[i][j]->_content_getter()=='b')
-            {
-                    _cells[i][j] -> draw_black();
-            }
+            _cells[i][j]->draw();
 
         }
     }
@@ -49,19 +38,7 @@ void Reversi::update()
     {
         for(int j = 0; j < 8; ++j)
         {
-            if(_cells[i][j]->_content_getter()=='n')
-            {
-                    _cells[i][j] -> draw();
-            }
-            else if(_cells[i][j]->_content_getter()=='p')
-            {
-                    _cells[i][j] -> draw_pink();
-            }
-            else if(_cells[i][j]->_content_getter()=='b')
-            {
-                    _cells[i][j] -> draw_black();
-            }
-
+            _cells[i][j] -> draw();
         }
     }
 }
@@ -78,6 +55,7 @@ void Reversi::event_handle(event ev)
                 {
                     _cells[i][j]->_content_setter('p');
                     this->update();
+
                 }
             }
         }

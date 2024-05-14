@@ -7,11 +7,9 @@ class Cell : public Widget
 {
     public:
         Cell(int,int,int,int,char);
-        char _content_getter();
-        void _content_setter(char);
+
         void draw() override;
-        void draw_pink();
-        void draw_black();
+
         virtual ~Cell();
 
     protected:
