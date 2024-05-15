@@ -14,11 +14,18 @@ class Reversi : public Widget
         void update();
         void event_handle(event)override;
         void find_legal_moves();
+        void find_legal_moves_black();
         void flip(int, int, char);
         virtual ~Reversi();
 
     protected:
         Cell* _cells[8][8];
+        struct Coordinate {
+            int x;
+            int y;
+
+            Coordinate(int x_coord, int y_coord) : x(x_coord), y(y_coord) {}
+        };
 
     private:
         static const int dx[8];

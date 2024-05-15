@@ -116,6 +116,10 @@ void Reversi::event_handle(event ev)
                     round = !round;
 
                 }
+                else if(!round)
+                {
+                    //move with black;
+                }
             }
         }
     }
@@ -128,6 +132,72 @@ void Reversi::event_handle(event ev)
 {
 
 }*/
+
+void Reversi::find_legal_moves_black()
+{
+    // Clear previous legal moves
+    for (int i = 0; i < 8; ++i)
+    {
+        for (int j = 0; j < 8; ++j)
+        {
+            if (_cells[i][j]->_content_getter() == 'g')
+            {
+                _cells[i][j]->_content_setter('n');
+            }
+        }
+    }
+
+    std::vector<Coordinate> coordinates;
+
+    for (int x = 0; x < 8; ++x)
+    {
+        for (int y = 0; y < 8; ++y)
+        {
+            if (_cells[x][y]->_content_getter() == 'n')
+            {
+                bool valid_move = false;
+                for (int dir = 0; dir < 8; ++dir)
+                {
+                    int nx = x + dx[dir];
+                    int ny = y + dy[dir];
+                    int count_opponents = 0;
+                    while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8)
+                    {
+                        char content = _cells[nx][ny]->_content_getter();
+                        if (content == 'n' || content == 'g')
+                        {
+                            break;
+                        }
+                        if (content == 'p')
+                        {
+                            count_opponents++;
+                        }
+                        else if (content == 'b')
+                        {
+                            if (count_opponents > 0)
+                            {
+                                valid_move = true;
+                            }
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                        nx += dx[dir];
+                        ny += dy[dir];
+                    }
+                    if (valid_move)
+                    {
+                        coordinates.push_back(Coordinate(x, y));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 void Reversi::find_legal_moves()
 {
