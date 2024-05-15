@@ -5,6 +5,9 @@
 
 using namespace genv;
 
+const int Reversi::dx[8] = { -1, -1, -1, 0, 1, 1, 1, 0 };
+const int Reversi::dy[8] = { -1, 0, 1, 1, 1, 0, -1, -1 };
+
 Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy)
 {
     for(int i = 0; i < 8; ++i) {
@@ -50,11 +53,6 @@ void Reversi::update()
 void Reversi::flip(int i, int j)
 {
     char player_color = 'p';
-
-
-    int dx[] = { -1, -1, -1, 0, 1, 1, 1, 0 };
-    int dy[] = { -1, 0, 1, 1, 1, 0, -1, -1 };
-
 
     for (int dir = 0; dir < 8; ++dir)
     {
@@ -143,8 +141,7 @@ void Reversi::find_legal_moves()
         }
     }
 
-    int dx[] = { -1, -1, -1, 0, 1, 1, 1, 0 };
-    int dy[] = { -1, 0, 1, 1, 1, 0, -1, -1 };
+
 
     for (int x = 0; x < 8; ++x)
     {

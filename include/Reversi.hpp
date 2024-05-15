@@ -21,6 +21,9 @@ class Reversi : public Widget
         Cell* _cells[8][8];
 
     private:
+        static const int dx[8];
+        static const int dy[8];
+
 };
 
 #endif // REVERSI_HPP
