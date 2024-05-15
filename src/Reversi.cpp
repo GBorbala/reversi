@@ -49,32 +49,32 @@ void Reversi::update()
 
 void Reversi::flip(int i, int j)
 {
-    char player_color = 'p'; // Assuming the player's color is always pink
+    char player_color = 'p';
 
-    // Directional vectors for exploring adjacent cells
+
     int dx[] = { -1, -1, -1, 0, 1, 1, 1, 0 };
     int dy[] = { -1, 0, 1, 1, 1, 0, -1, -1 };
 
-    // Check all eight directions for possible flips
+
     for (int dir = 0; dir < 8; ++dir)
     {
         int nx = i + dx[dir];
         int ny = j + dy[dir];
         bool found_opponent = false;
 
-        // Iterate in the current direction until the boundary or an empty cell is reached
+
         while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8)
         {
             char content = _cells[nx][ny]->_content_getter();
             if (content == 'n')
             {
-                break; // Break the loop if an empty cell is encountered
+                break;
             }
             if (content == player_color)
             {
                 if (found_opponent)
                 {
-                    // Flip the opponent's pieces to pink until we reach the player's own piece
+
                     int flip_x = i + dx[dir];
                     int flip_y = j + dy[dir];
                     while (flip_x != nx || flip_y != ny)
@@ -87,12 +87,12 @@ void Reversi::flip(int i, int j)
                 }
                 else
                 {
-                    break; // No opponent's pieces found, exit the loop
+                    break;
                 }
             }
             else
             {
-                found_opponent = true; // Found opponent's piece
+                found_opponent = true;
             }
             nx += dx[dir];
             ny += dy[dir];
@@ -124,6 +124,10 @@ void Reversi::event_handle(event ev)
 
 }
 
+/*void Reversi::return_legal()
+{
+
+}*/
 
 void Reversi::find_legal_moves()
 {
@@ -146,7 +150,7 @@ void Reversi::find_legal_moves()
     {
         for (int y = 0; y < 8; ++y)
         {
-            if (_cells[x][y]->_content_getter() == 'n')
+            /*if (_cells[x][y]->_content_getter() == 'n')
             { // Check only empty cells
                 bool adjacent_to_black = false;
                 for (int dir = 0; dir < 8; ++dir)
@@ -160,6 +164,8 @@ void Reversi::find_legal_moves()
                     }
                 }
                 if (!adjacent_to_black) continue; // Skip if not adjacent to a black star cell
+                */
+
 
                 // Check if it would sandwich black stars between pink stars
                 bool valid_move = false;
@@ -171,7 +177,7 @@ void Reversi::find_legal_moves()
                     while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8)
                     {
                         char content = _cells[nx][ny]->_content_getter();
-                        if (content == 'n')
+                        if (content == 'n' or content=='g')
                         {
                             break; // If an empty cell is found, break the loop
                         }
@@ -200,7 +206,7 @@ void Reversi::find_legal_moves()
                         break; // No need to check other directions once a legal move is found
                     }
                 }
-            }
+            //}
         }
     }
 }
