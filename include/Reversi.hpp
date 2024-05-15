@@ -14,7 +14,7 @@ class Reversi : public Widget
         void update();
         void event_handle(event)override;
         void find_legal_moves();
-        void flip(int, int);
+        void flip(int, int, char);
         virtual ~Reversi();
 
     protected:
@@ -23,6 +23,7 @@ class Reversi : public Widget
     private:
         static const int dx[8];
         static const int dy[8];
+        bool round;
 
 };
 

@@ -8,7 +8,7 @@ using namespace genv;
 const int Reversi::dx[8] = { -1, -1, -1, 0, 1, 1, 1, 0 };
 const int Reversi::dy[8] = { -1, 0, 1, 1, 1, 0, -1, -1 };
 
-Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy)
+Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy), round(true)
 {
     for(int i = 0; i < 8; ++i) {
         for(int j = 0; j < 8; ++j) {
@@ -50,9 +50,9 @@ void Reversi::update()
     }
 }
 
-void Reversi::flip(int i, int j)
+void Reversi::flip(int i, int j, char player)
 {
-    char player_color = 'p';
+    char player_color = player;
 
     for (int dir = 0; dir < 8; ++dir)
     {
@@ -100,18 +100,20 @@ void Reversi::flip(int i, int j)
 
 void Reversi::event_handle(event ev)
 {
+
     if(ev.type == ev_mouse && ev.button == btn_left)
     {
         for(int i = 0; i < 8; ++i)
         {
             for(int j = 0; j < 8; ++j)
             {
-                if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g')
+                if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g'&& round ==1)
                 {
                     _cells[i][j]->_content_setter('p');
-                    this->flip(i,j);
+                    this->flip(i,j,'p');
                     find_legal_moves();
                     this->update();
+                    round = !round;
 
                 }
             }
