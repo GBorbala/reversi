@@ -3,6 +3,10 @@
 #include "Widget.hpp"
 #include "graphics.hpp"
 
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 using namespace genv;
 
 const int Reversi::dx[8] = { -1, -1, -1, 0, 1, 1, 1, 0 };
@@ -107,18 +111,23 @@ void Reversi::event_handle(event ev)
         {
             for(int j = 0; j < 8; ++j)
             {
-                if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g'&& round ==1)
+                if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g'&& round)
                 {
+                    find_legal_moves();
                     _cells[i][j]->_content_setter('p');
                     this->flip(i,j,'p');
-                    find_legal_moves();
+
                     this->update();
                     round = !round;
 
                 }
                 else if(!round)
                 {
-                    //move with black;
+                    this->find_legal_moves_black();
+                    this->update();
+                    round=true;
+                    this->flip(i,j,'b');
+                    this->update();
                 }
             }
         }
@@ -128,14 +137,10 @@ void Reversi::event_handle(event ev)
 
 }
 
-/*void Reversi::return_legal()
-{
-
-}*/
 
 void Reversi::find_legal_moves_black()
 {
-    // Clear previous legal moves
+
     for (int i = 0; i < 8; ++i)
     {
         for (int j = 0; j < 8; ++j)
@@ -196,6 +201,12 @@ void Reversi::find_legal_moves_black()
             }
         }
     }
+
+
+    //generate random number and make random black move
+    int ran=rand() % (coordinates.size());
+
+    _cells[coordinates[ran].x][coordinates[ran].y]->_content_setter('b');
 }
 
 

@@ -15,6 +15,7 @@ class Reversi : public Widget
         void event_handle(event)override;
         void find_legal_moves();
         void find_legal_moves_black();
+        void make_black_move();
         void flip(int, int, char);
         virtual ~Reversi();
 
