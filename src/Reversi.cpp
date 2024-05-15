@@ -150,44 +150,29 @@ void Reversi::find_legal_moves()
     {
         for (int y = 0; y < 8; ++y)
         {
-            /*if (_cells[x][y]->_content_getter() == 'n')
-            { // Check only empty cells
-                bool adjacent_to_black = false;
-                for (int dir = 0; dir < 8; ++dir)
-                {
-                    int nx = x + dx[dir];
-                    int ny = y + dy[dir];
-                    if (nx >= 0 && nx < 8 && ny >= 0 && ny < 8 && _cells[nx][ny]->_content_getter() == 'b')
-                    {
-                        adjacent_to_black = true;
-                        break;
-                    }
-                }
-                if (!adjacent_to_black) continue; // Skip if not adjacent to a black star cell
-                */
+            if (_cells[x][y]->_content_getter() == 'n')
+            {
 
-
-                // Check if it would sandwich black stars between pink stars
                 bool valid_move = false;
                 for (int dir = 0; dir < 8; ++dir)
                 {
                     int nx = x + dx[dir];
                     int ny = y + dy[dir];
-                    bool found_opponent = false;
+                    int count_opponents = 0;
                     while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8)
                     {
                         char content = _cells[nx][ny]->_content_getter();
-                        if (content == 'n' or content=='g')
+                        if (content == 'n' or content == 'g')
                         {
-                            break; // If an empty cell is found, break the loop
+                            break;
                         }
                         if (content == 'b')
                         {
-                            found_opponent = true;
+                            count_opponents++;
                         }
                         else if (content == 'p')
                         {
-                            if (found_opponent)
+                            if (count_opponents > 0)
                             {
                                 valid_move = true;
                             }
@@ -203,13 +188,14 @@ void Reversi::find_legal_moves()
                     if (valid_move)
                     {
                         _cells[x][y]->_content_setter('g');
-                        break; // No need to check other directions once a legal move is found
+                        break;
                     }
                 }
-            //}
+            }
         }
     }
 }
+
 
 
 
