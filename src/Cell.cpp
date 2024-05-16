@@ -52,8 +52,8 @@ void Cell::draw()
 
 
     int center_x = _x + _size_x / 2;
-int center_y = _y + _size_y / 2;
-gout << color(r, g, b);
+    int center_y = _y + _size_y / 2;
+    gout << color(r, g, b);
 
 int radius = _size_x / 4; // Radius of the circle
 

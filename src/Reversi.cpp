@@ -21,6 +21,31 @@ Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy), round(true)
     }
 }
 
+void Reversi::show_result()
+{
+    gout<<color(255, 255, 255) << move_to(_x,_y)<<box(_size_x, _size_y);
+
+    int p_counter=0;
+    int b_counter=0;
+
+    for(int i=0; i<8; i++)
+    {
+        for(int j=0; j<8; j++)
+        {
+            if(_cells[i][j]->_content_getter()=='p')
+            {
+                p_counter++;
+            }
+            else if(_cells[i][j]->_content_getter()=='b')
+            {
+                b_counter++;
+            }
+        }
+    }
+
+    gout<<color(255,20,147)<<move_to(250,250)<<text("Pink points: ")<<text(std::to_string(p_counter));
+}
+
 void Reversi::draw()
 {
     for(int i = 0; i < 8; ++i)
@@ -114,7 +139,6 @@ void Reversi::flip(int i, int j, char player)
 
 void Reversi::event_handle(event ev)
 {
-    this->find_legal_moves();
     bool legal_exists=false;
     bool ng_exists=false;
     for(int i=0; i<8; i++)
@@ -131,34 +155,45 @@ void Reversi::event_handle(event ev)
             }
         }
     }
-    if(ev.type == ev_mouse && ev.button == btn_left)
+    if(!legal_exists && !ng_exists)
     {
-        if(round)
+        this->show_result();
+    }
+    else
+    {
+        this->find_legal_moves();
+        this->update();
+
+        if(ev.type == ev_mouse && ev.button == btn_left)
         {
-            for(int i = 0; i < 8; ++i)
+            if(round)
             {
-                for(int j = 0; j < 8; ++j)
+                for(int i = 0; i < 8; ++i)
                 {
-                    if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g')
+                    for(int j = 0; j < 8; ++j)
                     {
-                        //find_legal_moves();
-                        _cells[i][j]->_content_setter('p');
-                        this->flip(i, j, 'p');
-                        this->update();
-                        round = !round;
-                        break;
+                        if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g')
+                        {
+                            //find_legal_moves();
+                            _cells[i][j]->_content_setter('p');
+                            this->flip(i, j, 'p');
+                            this->update();
+                            round = !round;
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        if(!round)
-        {
-            this->find_legal_moves_black();
-            this->update();
-            round = !round;
+            if(!round)
+            {
+                this->find_legal_moves_black();
+                this->update();
+                round = !round;
+            }
         }
     }
+
 }
 
 

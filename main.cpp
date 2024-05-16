@@ -19,7 +19,6 @@ int main()
     while(gin >> ev)
     {
         reversi->event_handle(ev);
-        reversi->update();
         gout<<refresh;
     }
     return 0;
