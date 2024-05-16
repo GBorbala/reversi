@@ -23,6 +23,16 @@ Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy), round(true)
 
 void Reversi::draw()
 {
+    for(int i = 0; i < 8; ++i)
+    {
+        for(int j = 0; j < 8; ++j)
+        {
+
+            _cells[i][j]->_content_setter('n');
+
+        }
+    }
+
     _cells[3][3]->_content_setter('p');
     _cells[4][4]->_content_setter('p');
     _cells[4][3]->_content_setter('b');
@@ -68,7 +78,7 @@ void Reversi::flip(int i, int j, char player)
         while (nx >= 0 && nx < 8 && ny >= 0 && ny < 8)
         {
             char content = _cells[nx][ny]->_content_getter();
-            if (content == 'n')
+            if (content == 'n' or content=='g')
             {
                 break;
             }
@@ -105,6 +115,22 @@ void Reversi::flip(int i, int j, char player)
 void Reversi::event_handle(event ev)
 {
     this->find_legal_moves();
+    bool legal_exists=false;
+    bool ng_exists=false;
+    for(int i=0; i<8; i++)
+    {
+        for(int j=0; j<8; j++)
+        {
+            if(_cells[i][j]->_content_getter()=='g')
+            {
+                legal_exists=true;
+            }
+            else if(_cells[i][j]->_content_getter()=='g' or _cells[i][j]->_content_getter()=='n')
+            {
+                ng_exists=true;
+            }
+        }
+    }
     if(ev.type == ev_mouse && ev.button == btn_left)
     {
         if(round)
