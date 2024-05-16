@@ -104,9 +104,10 @@ void Reversi::flip(int i, int j, char player)
 
 void Reversi::event_handle(event ev)
 {
+    this->find_legal_moves();
     if(ev.type == ev_mouse && ev.button == btn_left)
     {
-        if(round) // Pink's turn
+        if(round)
         {
             for(int i = 0; i < 8; ++i)
             {
@@ -114,22 +115,22 @@ void Reversi::event_handle(event ev)
                 {
                     if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g')
                     {
-                        find_legal_moves();
+                        //find_legal_moves();
                         _cells[i][j]->_content_setter('p');
                         this->flip(i, j, 'p');
                         this->update();
-                        round = !round; // Toggle to black's turn
+                        round = !round;
                         break;
                     }
                 }
             }
         }
 
-        if(!round) // Black's turn
+        if(!round)
         {
-            this->find_legal_moves_black(); // Black finds legal moves and makes a move
+            this->find_legal_moves_black();
             this->update();
-            round = !round; // Toggle back to pink's turn
+            round = !round;
         }
     }
 }
@@ -138,7 +139,7 @@ void Reversi::event_handle(event ev)
 
 void Reversi::find_legal_moves_black()
 {
-
+    // Clear previous legal moves
     for (int i = 0; i < 8; ++i)
     {
         for (int j = 0; j < 8; ++j)
@@ -151,6 +152,7 @@ void Reversi::find_legal_moves_black()
     }
 
     std::vector<Coordinate> coordinates;
+
 
     for (int x = 0; x < 8; ++x)
     {
@@ -200,14 +202,18 @@ void Reversi::find_legal_moves_black()
         }
     }
 
+    if (!coordinates.empty())
+    {
 
-    //generate random number and make random black move
-    int ran=rand() % (coordinates.size());
+        int ran = rand() % coordinates.size();
+        int x = coordinates[ran].x;
+        int y = coordinates[ran].y;
 
-    _cells[coordinates[ran].x][coordinates[ran].y]->_content_setter('b');
-
-    this->flip(coordinates[ran].x,coordinates[ran].y,'b');
+        _cells[x][y]->_content_setter('b');
+        this->flip(x, y, 'b');
+    }
 }
+
 
 
 void Reversi::find_legal_moves()
