@@ -104,38 +104,36 @@ void Reversi::flip(int i, int j, char player)
 
 void Reversi::event_handle(event ev)
 {
-
     if(ev.type == ev_mouse && ev.button == btn_left)
     {
-        for(int i = 0; i < 8; ++i)
+        if(round) // Pink's turn
         {
-            for(int j = 0; j < 8; ++j)
+            for(int i = 0; i < 8; ++i)
             {
-                if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g'&& round)
+                for(int j = 0; j < 8; ++j)
                 {
-                    find_legal_moves();
-                    _cells[i][j]->_content_setter('p');
-                    this->flip(i,j,'p');
-
-                    this->update();
-                    round = !round;
-
-                }
-                else if(!round)
-                {
-                    this->find_legal_moves_black();
-                    this->update();
-                    round=true;
-                    this->flip(i,j,'b');
-                    this->update();
+                    if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g')
+                    {
+                        find_legal_moves();
+                        _cells[i][j]->_content_setter('p');
+                        this->flip(i, j, 'p');
+                        this->update();
+                        round = !round; // Toggle to black's turn
+                        break;
+                    }
                 }
             }
         }
+
+        if(!round) // Black's turn
+        {
+            this->find_legal_moves_black(); // Black finds legal moves and makes a move
+            this->update();
+            round = !round; // Toggle back to pink's turn
+        }
     }
-
-
-
 }
+
 
 
 void Reversi::find_legal_moves_black()
@@ -207,6 +205,8 @@ void Reversi::find_legal_moves_black()
     int ran=rand() % (coordinates.size());
 
     _cells[coordinates[ran].x][coordinates[ran].y]->_content_setter('b');
+
+    this->flip(coordinates[ran].x,coordinates[ran].y,'b');
 }
 
 

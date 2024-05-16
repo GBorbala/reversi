@@ -3,6 +3,10 @@
 #include "Cell.hpp"
 #include "Reversi.hpp"
 
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
 using namespace genv;
 
 int main()
