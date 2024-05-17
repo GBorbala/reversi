@@ -55,24 +55,22 @@ void Cell::draw()
     int center_y = _y + _size_y / 2;
     gout << color(r, g, b);
 
-int radius = _size_x / 4; // Radius of the circle
+    int radius = _size_x / 4; // Radius of the circle
 
-if (_content != 'n')
-{
-    // Draw a circle using the center and radius
-    for (int angle = 0; angle < 360; ++angle) {
-        double radian = angle * 3.14159265358979323846 / 180;
-        int x = center_x + radius * cos(radian);
-        int y = center_y + radius * sin(radian);
-        if (angle == 0) {
-            gout << move_to(x, y);
-        } else {
-            gout << line_to(x, y);
+    if (_content != 'n')
+    {
+        // Fill the circle
+        for (int y = -radius; y <= radius; ++y)
+        {
+            for (int x = -radius; x <= radius; ++x)
+            {
+                if (x * x + y * y <= radius * radius)
+                {
+                    gout << move_to(center_x + x, center_y + y) << dot;
+                }
+            }
         }
     }
-    gout << line_to(center_x + radius, center_y); // Complete the circle
-}
-
 
 }
 
