@@ -20,34 +20,12 @@ Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy), round(true)
             _cells[i][j] = new Cell(x+j * 75, y + i * 75, 75, 75, 'n');
         }
     }
+    _cells[3][3]->_content_setter('p');
+    _cells[4][4]->_content_setter('p');
+    _cells[4][3]->_content_setter('b');
+    _cells[3][4]->_content_setter('b');
 }
 
-//to menu class
-/*void Reversi::show_result()
-{
-    gout<<color(255, 255, 255) << move_to(_x,_y)<<box(_size_x, _size_y);
-
-    int p_counter=0;
-    int b_counter=0;
-
-    for(int i=0; i<8; i++)
-    {
-        for(int j=0; j<8; j++)
-        {
-            if(_cells[i][j]->_content_getter()=='p')
-            {
-                p_counter++;
-            }
-            else if(_cells[i][j]->_content_getter()=='b')
-            {
-                b_counter++;
-            }
-        }
-    }
-
-    gout<<color(255,20,147)<<move_to(250,250)<<text("Pink points: ")<<text(std::to_string(p_counter));
-    gout<<color(0,0,0)<<move_to(250,280)<<text("Black points: ")<<text(std::to_string(b_counter));
-}*/
 
 void Reversi::draw()
 {
@@ -159,10 +137,11 @@ void Reversi::event_handle(event ev)
         }
     }
 
-    Menu menu(0, 0, 600, 600);
+    Menu* menu = new Menu(0, 0, 600, 600);
+
     if(!legal_exists && !ng_exists)
     {
-        menu.show_result(_cells);
+        menu->show_result(_cells);
     }
     else
     {

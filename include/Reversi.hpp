@@ -12,7 +12,6 @@ class Reversi : public Widget
         Reversi(int,int,int,int);
         void draw() override;
         void update();
-        //void show_result();
         void event_handle(event)override;
         void find_legal_moves();
         void find_legal_moves_black();
