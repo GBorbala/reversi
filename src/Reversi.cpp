@@ -2,6 +2,7 @@
 #include "Cell.hpp"
 #include "Widget.hpp"
 #include "graphics.hpp"
+#include "Menu.hpp"
 
 #include <iostream>
 #include <cstdlib>
@@ -21,7 +22,8 @@ Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy), round(true)
     }
 }
 
-void Reversi::show_result()
+//to menu class
+/*void Reversi::show_result()
 {
     gout<<color(255, 255, 255) << move_to(_x,_y)<<box(_size_x, _size_y);
 
@@ -44,7 +46,8 @@ void Reversi::show_result()
     }
 
     gout<<color(255,20,147)<<move_to(250,250)<<text("Pink points: ")<<text(std::to_string(p_counter));
-}
+    gout<<color(0,0,0)<<move_to(250,280)<<text("Black points: ")<<text(std::to_string(b_counter));
+}*/
 
 void Reversi::draw()
 {
@@ -155,9 +158,11 @@ void Reversi::event_handle(event ev)
             }
         }
     }
+
+    Menu menu(0, 0, 600, 600);
     if(!legal_exists && !ng_exists)
     {
-        this->show_result();
+        menu.show_result(_cells);
     }
     else
     {
