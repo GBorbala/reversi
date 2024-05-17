@@ -198,6 +198,9 @@ void Reversi::find_legal_moves_black()
 
     std::vector<Coordinate> coordinates;
 
+    Coordinate maxi_cor(0,0);
+    int maxi_opponents=0;
+
 
     for (int x = 0; x < 8; ++x)
     {
@@ -237,6 +240,11 @@ void Reversi::find_legal_moves_black()
                         nx += dx[dir];
                         ny += dy[dir];
                     }
+                    if(count_opponents>maxi_opponents && valid_move)
+                    {
+                        maxi_opponents=count_opponents;
+                        maxi_cor=Coordinate(x,y);
+                    }
                     if (valid_move)
                     {
                         coordinates.push_back(Coordinate(x, y));
@@ -247,7 +255,7 @@ void Reversi::find_legal_moves_black()
         }
     }
 
-    if (!coordinates.empty())
+    /*if (!coordinates.empty())
     {
 
         int ran = rand() % coordinates.size();
@@ -256,6 +264,13 @@ void Reversi::find_legal_moves_black()
 
         _cells[x][y]->_content_setter('b');
         this->flip(x, y, 'b');
+    }*/
+    if(maxi_opponents>0)
+    {
+        int x= maxi_cor.x;
+        int y= maxi_cor.y;
+        _cells[x][y]->_content_setter('b');
+        this->flip(x,y,'b');
     }
 }
 
