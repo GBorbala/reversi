@@ -14,7 +14,7 @@ const int Reversi::dx[8] = { -1, -1, -1, 0, 1, 1, 1, 0 };
 const int Reversi::dy[8] = { -1, 0, 1, 1, 1, 0, -1, -1 };
 
 Reversi::Reversi(int x, int y, int sx, int sy, Menu* menu)
-    : Widget(x, y, sx, sy), _menu(menu), round(true)
+    : Widget(x, y, sx, sy), _menu(menu), round(true), b_no_l(false)
 {
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
@@ -25,11 +25,14 @@ Reversi::Reversi(int x, int y, int sx, int sy, Menu* menu)
     _cells[4][4]->_content_setter('p');
     _cells[4][3]->_content_setter('b');
     _cells[3][4]->_content_setter('b');
+
+    this->find_legal_moves();
 }
 
 void Reversi::draw()
 {
     round=true;
+    b_no_l=false;
     for(int i = 0; i < 8; ++i)
     {
         for(int j = 0; j < 8; ++j)
@@ -45,17 +48,6 @@ void Reversi::draw()
     _cells[4][3]->_content_setter('b');
     _cells[3][4]->_content_setter('b');
 
-    //find_legal_moves();
-
-    /*for(int i = 0; i < 8; ++i)
-    {
-        for(int j = 0; j < 8; ++j)
-        {
-
-            _cells[i][j]->draw();
-
-        }
-    }*/
 }
 
 void Reversi::update()
@@ -121,6 +113,8 @@ void Reversi::flip(int i, int j, char player)
 
 void Reversi::event_handle(event ev)
 {
+    this->find_legal_moves();
+
     bool legal_exists=false;
     bool ng_exists=false;
     for(int i=0; i<8; i++)
@@ -138,9 +132,7 @@ void Reversi::event_handle(event ev)
         }
     }
 
-
-
-    if(!legal_exists && !ng_exists)
+    if(!ng_exists || (round && !legal_exists) || (!round && b_no_l))
     {
 
         _menu->show_result(_cells, ev);
@@ -160,7 +152,7 @@ void Reversi::event_handle(event ev)
                     {
                         if(_cells[i][j]->mouse_is_on(ev.pos_x, ev.pos_y) && _cells[i][j]->_content_getter()=='g')
                         {
-                            //find_legal_moves();
+
                             _cells[i][j]->_content_setter('p');
                             this->flip(i, j, 'p');
                             this->update();
@@ -256,17 +248,15 @@ void Reversi::find_legal_moves_black()
             }
         }
     }
-
-    /*if (!coordinates.empty())
+    if(coordinates.empty())
     {
+        b_no_l=true;
+    }
+    else
+    {
+        b_no_l=false;
+    }
 
-        int ran = rand() % coordinates.size();
-        int x = coordinates[ran].x;
-        int y = coordinates[ran].y;
-
-        _cells[x][y]->_content_setter('b');
-        this->flip(x, y, 'b');
-    }*/
     if(maxi_opponents>0)
     {
         int x= maxi_cor.x;

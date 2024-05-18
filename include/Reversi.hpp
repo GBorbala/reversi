@@ -34,6 +34,7 @@ class Reversi : public Widget
         static const int dx[8];
         static const int dy[8];
         bool round;
+        bool b_no_l;
 
 };
 
