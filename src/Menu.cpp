@@ -9,7 +9,7 @@
 
 using namespace genv;
 
-Menu::Menu(int x, int y, int sx, int sy) :Widget(x,y,sx,sy),game_is_on(false)
+Menu::Menu(int x, int y, int sx, int sy) :Widget(x,y,sx,sy),game_is_on(false),retry(false)
 {
     // ctor
 }
@@ -19,9 +19,27 @@ bool Menu::game_is_on_getter()
     return game_is_on;
 }
 
-
-void Menu::show_result(Cell* cells[8][8])
+void Menu::game_is_on_setter(bool n_game)
 {
+    game_is_on=n_game;
+}
+
+void Menu::retry_setter(bool n_retry)
+{
+    retry=n_retry;
+}
+
+bool Menu::retry_getter()
+{
+    return retry;
+}
+
+
+void Menu::show_result(Cell* cells[8][8], event ev)
+{
+    //this->reset();
+
+
     gout << color(255, 255, 255) << move_to(_x, _y) << box(_size_x, _size_y);
 
     int p_counter = 0;
@@ -44,6 +62,18 @@ void Menu::show_result(Cell* cells[8][8])
 
     gout << color(255, 20, 147) << move_to(250, 250) << text("Pink points: ") << text(std::to_string(p_counter));
     gout << color(0, 0, 0) << move_to(250, 280) << text("Black points: ") << text(std::to_string(b_counter));
+
+    gout << color(0, 0, 0)<< move_to(250, 310) << box(100,50);
+    gout << color(255, 255, 255)<< move_to(252, 312) << box(96,46);
+    gout << color(0, 0, 0)<< move_to(260, 330) << text("Retry");
+
+    if(ev.type == ev_mouse && ev.button == btn_left)
+    {
+        if(ev.pos_x>250 && ev.pos_x<350 && ev.pos_y>310 && ev.pos_y<360)
+        {
+            retry=true;
+        }
+    }
 }
 
 void Menu::start_menu( event ev)
@@ -67,6 +97,11 @@ void Menu::start_menu( event ev)
 
 }
 
+void Menu::reset()
+{
+    game_is_on = false;
+    retry = false;
+}
 
 Menu::~Menu()
 {

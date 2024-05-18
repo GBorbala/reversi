@@ -13,11 +13,12 @@ using namespace genv;
 const int Reversi::dx[8] = { -1, -1, -1, 0, 1, 1, 1, 0 };
 const int Reversi::dy[8] = { -1, 0, 1, 1, 1, 0, -1, -1 };
 
-Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy), round(true)
+Reversi::Reversi(int x, int y, int sx, int sy, Menu* menu)
+    : Widget(x, y, sx, sy), _menu(menu), round(true)
 {
-    for(int i = 0; i < 8; ++i) {
-        for(int j = 0; j < 8; ++j) {
-            _cells[i][j] = new Cell(x+j * 75, y + i * 75, 75, 75, 'n');
+    for (int i = 0; i < 8; ++i) {
+        for (int j = 0; j < 8; ++j) {
+            _cells[i][j] = new Cell(x + j * 75, y + i * 75, 75, 75, 'n');
         }
     }
     _cells[3][3]->_content_setter('p');
@@ -26,9 +27,9 @@ Reversi::Reversi(int x, int y, int sx, int sy):Widget(x,y,sx,sy), round(true)
     _cells[3][4]->_content_setter('b');
 }
 
-
 void Reversi::draw()
 {
+    round=true;
     for(int i = 0; i < 8; ++i)
     {
         for(int j = 0; j < 8; ++j)
@@ -44,9 +45,9 @@ void Reversi::draw()
     _cells[4][3]->_content_setter('b');
     _cells[3][4]->_content_setter('b');
 
-    find_legal_moves();
+    //find_legal_moves();
 
-    for(int i = 0; i < 8; ++i)
+    /*for(int i = 0; i < 8; ++i)
     {
         for(int j = 0; j < 8; ++j)
         {
@@ -54,7 +55,7 @@ void Reversi::draw()
             _cells[i][j]->draw();
 
         }
-    }
+    }*/
 }
 
 void Reversi::update()
@@ -137,11 +138,12 @@ void Reversi::event_handle(event ev)
         }
     }
 
-    Menu* menu = new Menu(0, 0, 600, 600);
+
 
     if(!legal_exists && !ng_exists)
     {
-        menu->show_result(_cells);
+
+        _menu->show_result(_cells, ev);
     }
     else
     {

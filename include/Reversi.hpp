@@ -3,13 +3,14 @@
 
 #include "Widget.hpp"
 #include "Cell.hpp"
+#include "Menu.hpp"
 
 using namespace genv;
 
 class Reversi : public Widget
 {
     public:
-        Reversi(int,int,int,int);
+        Reversi(int,int,int,int,Menu*);
         void draw() override;
         void update();
         void event_handle(event)override;
@@ -20,6 +21,7 @@ class Reversi : public Widget
         virtual ~Reversi();
 
     protected:
+        Menu* _menu;
         Cell* _cells[8][8];
         struct Coordinate {
             int x;
