@@ -11,10 +11,11 @@ public:
     GameMaster();
     virtual ~GameMaster();
     void the_game(event);
+    Menu* _menu;
 
 protected:
     Reversi* _reversi;
-    Menu* _menu;
+
 
 private:
 };

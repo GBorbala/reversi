@@ -18,8 +18,9 @@ int main()
 
     GameMaster* game_master = new GameMaster();
 
-    Menu* menu = new Menu(0, 0, 600, 600);
-    menu->start_menu(ev);
+    //Menu* menu = new Menu(0, 0, 600, 600);
+    //menu->start_menu(ev);
+    game_master->_menu->start_menu(ev);
 
     while(gin >> ev)
     {
